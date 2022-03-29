@@ -8,6 +8,7 @@ namespace TicTacToe
     {
         static void Main(string[] args)
         {
+            bool continueGame;
             TicTacToe.AnimationStart();
             TicTacToe.Game();
         }
@@ -17,29 +18,31 @@ namespace TicTacToe
             string choice;
             char winner = 'P';
             char[] board = new char[9] { ' ', ' ' , ' ', ' ', ' ' , ' ', ' ', ' ' , ' ' };
-
+            int time=0;
             do
             {
+                time++;
                 
                 Console.Clear();
-                Console.WriteLine("         BOARD");
+                Console.WriteLine("         TABULEIRO");
                 Console.WriteLine("       |       |      ");
-                Console.WriteLine($"   {board[0]}   |   {board[1]}   |   {board[2]} ");
+                Console.WriteLine($"   {board[6]}   |   {board[7]}   |   {board[8]} ");
                 Console.WriteLine("_______|_______|_______ ");
                 Console.WriteLine("       |       |      ");
                 Console.WriteLine($"   {board[3]}   |   {board[4]}   |   {board[5]} ");
                 Console.WriteLine("_______|_______|_______");
                 Console.WriteLine("       |       |      ");
-                Console.WriteLine($"   {board[6]}   |   {board[7]}   |   {board[8]} ");
+                Console.WriteLine($"   {board[0]}   |   {board[1]}   |   {board[2]} ");
                 Console.WriteLine("       |       |     ");
                 Console.WriteLine("");
-                Console.WriteLine($"Type your choice - Player {player}");
+                Console.WriteLine($"Agora é a vez do Jogador {player}");
+                Console.WriteLine($"Digite um número de 1-9 que ainda não foi jogado");
                 TicTacToe.Caption();
                 int n;
                 choice = Console.ReadLine();
                 while (!Int32.TryParse(choice, out n) || n < 1 || n > 9 || board[n - 1] != ' ')
                 {
-                    Console.WriteLine("Type a valid choice! Try again!");
+                    Console.WriteLine("Jogada inválida! Tente novamente!");
                     choice = Console.ReadLine();
                 } 
 
@@ -49,11 +52,36 @@ namespace TicTacToe
                     player = 'O';
                 else player = 'X';
                 winner = TicTacToe.VerifyWinner(board);
+                if (time >= 9 && winner == 'P')
+                {
+                    winner = 'T';
+                }
             } while (winner=='P');
-            Console.WriteLine($"O jogador {winner} venceu!");
-            Console.ReadLine();
+            congratsWinner(winner, board);
+            
         } 
         
+        public static void congratsWinner(char winner, char[] board )
+        {
+            Console.Clear();
+            if(winner == 'T')
+            {
+                Console.WriteLine($"O JOGO EMPATOU, VELHA!");
+            } else
+            Console.WriteLine($"O JOGADOR {winner} VENCEU!");
+            Console.WriteLine("       |       |      ");
+            Console.WriteLine($"   {board[6]}   |   {board[7]}   |   {board[8]} ");
+            Console.WriteLine("_______|_______|_______ ");
+            Console.WriteLine("       |       |      ");
+            Console.WriteLine($"   {board[3]}   |   {board[4]}   |   {board[5]} ");
+            Console.WriteLine("_______|_______|_______");
+            Console.WriteLine("       |       |      ");
+            Console.WriteLine($"   {board[0]}   |   {board[1]}   |   {board[2]} ");
+            Console.WriteLine("       |       |     ");
+            Console.WriteLine("Obrigado por jogar, desenvolvido por João Pedro Vargas para o desafio da Klassmatt");
+            Console.ReadLine();
+
+        }
         public static char VerifyWinner(char[] board)
         {
             char winner='P', columnWinner='P';
@@ -116,21 +144,24 @@ namespace TicTacToe
         public static char VerifyRow(char[] board)
         {
             char rowWinner = 'P';
+            
+
+
             if ((board[0] == 'X' && board[1] == 'X' && board[2] == 'X') || (board[0] == 'O' && board[1] == 'O' && board[2] == 'O'))
-            {
-                rowWinner = board[0];
-            }
-            else
-            {
-                if ((board[3] == 'X' && board[4] == 'X' && board[5] == 'X') || (board[3] == 'O' && board[4] == 'O' && board[5] == 'O'))
                 {
-                    rowWinner = board[1];
+                    rowWinner = board[0];
                 }
-                else if ((board[6] == 'X' && board[7] == 'X' && board[8] == 'X') || (board[6] == 'O' && board[7] == 'O' && board[8] == 'O'))
+                else
                 {
-                    rowWinner = board[1];
+                    if ((board[3] == 'X' && board[4] == 'X' && board[5] == 'X') || (board[3] == 'O' && board[4] == 'O' && board[5] == 'O'))
+                    {
+                        rowWinner = board[1];
+                    }
+                    else if ((board[6] == 'X' && board[7] == 'X' && board[8] == 'X') || (board[6] == 'O' && board[7] == 'O' && board[8] == 'O'))
+                    {
+                        rowWinner = board[1];
+                    }
                 }
-            }
 
 
             return rowWinner;
@@ -140,20 +171,23 @@ namespace TicTacToe
             Console.WriteLine("");
             Console.WriteLine("");
             Console.WriteLine("");
-            Console.WriteLine("        CAPTION");
+            Console.WriteLine("        LEGENDA");
+            Console.WriteLine("");
+            Console.WriteLine("Use a sequencia do teclado numérico para se guiar");
+            Console.WriteLine("");
             Console.WriteLine("       |       |      ");
-            Console.WriteLine("   1   |   2   |   3 ");
+            Console.WriteLine("   7   |   8   |   9 ");
             Console.WriteLine("_______|_______|_______ ");
             Console.WriteLine("       |       |      ");
             Console.WriteLine("   4   |   5   |   6  ");
             Console.WriteLine("_______|_______|_______");
             Console.WriteLine("       |       |      ");
-            Console.WriteLine("   7   |   8   |   9");
+            Console.WriteLine("   1   |   2   |   3");
             Console.WriteLine("       |       |     ");
         }
         public static void AnimationStart()
         {
-            Console.WriteLine("Starting the game...");
+            Console.WriteLine("Iniciando o Jogo...");
             Console.WriteLine("       |       |      ");
             Console.WriteLine("       |       |    ");
             Console.WriteLine("_______|_______|_______ ");
@@ -165,7 +199,7 @@ namespace TicTacToe
             Console.WriteLine("       |       |     ");
             Thread.Sleep(500);
             Console.Clear();
-            Console.WriteLine("Starting the game...");
+            Console.WriteLine("Iniciando o Jogo...");
             Console.WriteLine("       |       |      ");
             Console.WriteLine("   X   |       |    ");
             Console.WriteLine("_______|_______|_______ ");
@@ -177,7 +211,7 @@ namespace TicTacToe
             Console.WriteLine("       |       |     ");
             Thread.Sleep(500);
             Console.Clear();
-            Console.WriteLine("Starting the game...");
+            Console.WriteLine("Iniciando o Jogo...");
             Console.WriteLine("       |       |      ");
             Console.WriteLine("   X   |       |   O  ");
             Console.WriteLine("_______|_______|_______ ");
@@ -189,7 +223,7 @@ namespace TicTacToe
             Console.WriteLine("       |       |     ");
             Thread.Sleep(500);
             Console.Clear();
-            Console.WriteLine("Starting the game...");
+            Console.WriteLine("Iniciando o Jogo...");
             Console.WriteLine("       |       |      ");
             Console.WriteLine("   X   |       |   O  ");
             Console.WriteLine("_______|_______|_______ ");
@@ -201,7 +235,7 @@ namespace TicTacToe
             Console.WriteLine("       |       |     ");
             Thread.Sleep(500);
             Console.Clear();
-            Console.WriteLine("Starting the game...");
+            Console.WriteLine("Iniciando o Jogo...");
             Console.WriteLine("       |       |      ");
             Console.WriteLine("   X   |       |   O  ");
             Console.WriteLine("_______|_______|_______ ");
@@ -213,7 +247,7 @@ namespace TicTacToe
             Console.WriteLine("       |       |     ");
             Thread.Sleep(500);
             Console.Clear();
-            Console.WriteLine("Starting the game...");
+            Console.WriteLine("Iniciando o Jogo...");
             Console.WriteLine("       |       |      ");
             Console.WriteLine("   X   |       |   O  ");
             Console.WriteLine("_______|_______|_______ ");
@@ -225,7 +259,7 @@ namespace TicTacToe
             Console.WriteLine("       |       |     ");
             Thread.Sleep(500);
             Console.Clear();
-            Console.WriteLine("Starting the game...");
+            Console.WriteLine("Iniciando o Jogo...");
             Console.WriteLine("       |       |      ");
             Console.WriteLine("   X   |       |   O  ");
             Console.WriteLine("_______|_______|_______ ");
@@ -242,8 +276,8 @@ namespace TicTacToe
             Console.WriteLine("");
             Console.WriteLine("");
             Console.WriteLine("");
-            Console.WriteLine(" WELCOME TO TICTACTOE");
-            Console.WriteLine(" Press enter to start");
+            Console.WriteLine(" Bem vindo ao Jogo da Velha");
+            Console.WriteLine(" Aperte enter para começar!");
             Console.WriteLine("");
             Console.WriteLine("");
             Console.WriteLine("");
